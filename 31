@@ -1,52 +1,39 @@
-# Prerequisites
-*.d
-
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+#include <stdio.h> 
+#include <stdlib.h>
+#include <unistd.h>
+#include <locale.h>
+void bubbleSort(int arr[], int n){
+	int i,j,temp;
+	for(i = 0; i < n - 1; i++){
+		for(j = 0; j < n; j++){
+			if(arr[j] > arr[j + 1]){
+				temp = arr[j];			
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}		
+		}
+	}	
+}
+void print(int arr[], int size){
+	int i;
+	for(i = 0; i < size; i++){
+		printf("%d",arr[i]);
+	}
+	printf("\n");
+}
+int main(){
+	int arr[]= {64, 34, 25, 12, 22, 11, 90};
+	int n = sizeof(arr) / sizeof (arr[0]);
+	system("chcp 65001");
+	setlocale(LC_ALL,"portuguse ");
+	system("color f9");
+	system("cls");
+	
+	print(arr,n);
+	
+	bubbleSort(arr,n);
+	
+	printf("Array depois da ordenação: \n");
+	print(arr,n);
+	
+	return 0;	
