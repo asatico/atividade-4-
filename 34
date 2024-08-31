@@ -8,15 +8,21 @@ void merge (int arr[], int left,  int mid, int right ){
 
     //Criar arrys temporarios.
     int *L =( int * )malloc(n1 * sizeof(int));
-    int *R = (int *)malloc(n2 * sizeof(int));
+    int *R = ( int *)malloc(n2 * sizeof(int));
 
     if (L == NULL || R == NULL){
         printf("Erro ao alocar  memória. \n");
         exit(1);
     }
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++) 
+        R[j] = arr[mid + 1 + j];
+
     int i = 0;
     int j = 0;
     int k = left;
+
     while (i < n1 && j < n2){
         if (L[i] <= R[j]){
             arr[k] = L[i];
@@ -40,7 +46,7 @@ void merge (int arr[], int left,  int mid, int right ){
     free(L);
     free(R);        
 }
-void margerSort(int arr, int left, int right){
+void margerSort(int arr[], int left, int right){
     if(left < right){
         int mid = left + (right - left)/ 2;
 
@@ -52,7 +58,7 @@ void margerSort(int arr, int left, int right){
 }    
 void print(int arr[], int size){
     for ( int i = 0; i < size; i++){
-        printf("%d",arr[i]);
+        printf("%d ", arr[i]);
     }
     printf("\n");
 }
@@ -66,7 +72,7 @@ int main (){
    system("cls");
 
    printf("Digite o número de elemntos: ");
-   scanf("%d",&n);
+   scanf("%d", &n);
 
    //aloca a memoria.
    arr = (int  *)malloc(n * sizeof(int));
@@ -75,18 +81,18 @@ int main (){
     return 1;
    }
    // solicita os elementos.
-   printf("Digite %d números:", n);
+   printf("Digite %d números:\n", n);
    for (int  i = 0; i < n; i++){
-        scanf("%d",&arr[i]);
+        scanf("%d", &arr[i]);
    }
    
-    printf("Original: \n");
-    print(arr,n);
+    printf("Original:\n");
+    print(arr, n);
 
     margerSort(arr, 0, n - 1);
 
-    printf("Ordernado: \n");
-    print(arr,n);
+    printf("Ordernado:\n");
+    print(arr, n);
 
 
     free(arr);
