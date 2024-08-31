@@ -1,0 +1,60 @@
+#include <stdio.h> 
+#include <stdlib.h>
+#include <unistd.h>
+#include <locale.h>
+void insertSort(int arr[], int count){
+    int i, key, j;
+    for (i = 1; i < count; i++){
+        key = arr[i]; // O elemento a ser inserido.
+        j = i - 1;
+
+        while (j >= 0 && arr[j]> key){
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;   
+    }
+}
+void print(int arr[], int size){
+    int i;
+    for ( i = 0; i < size; i++){
+        printf("%d",arr[i]);
+    }
+    printf("\n");
+}
+int main (){
+    int *arr;
+    int n, i ;
+    system("chcp 65001");
+    system("color f9");
+    setlocale(LC_ALL,"portuguse");
+    system("cls");
+
+    printf("Digite o número de elementos: ");
+    scanf("%d",&n);
+    
+    //alocar memoria.
+    arr = (int *)malloc(n * sizeof(int));
+    if (arr == NULL){
+        printf("ERRO  AO ALOCAR MEMÓRIA. \n"); 
+        return 1;
+    }
+
+    printf("Digite os números: ");
+    for (i = 0; i < n; i++){
+        scanf("%d",&arr[i]);
+    }
+    
+
+    printf("Original: \n");
+    print(arr, n);
+
+    insertSort(arr, n);
+
+    printf("Ordenado: \n");
+    print(arr,n);
+
+    free(arr);
+
+    return 0;
+}
