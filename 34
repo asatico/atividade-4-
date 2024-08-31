@@ -1,0 +1,94 @@
+#include <stdio.h> 
+#include <stdlib.h>
+#include <unistd.h>
+#include <locale.h>
+void merge (int arr[], int left,  int mid, int right ){
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    //Criar arrys temporarios.
+    int *L =( int * )malloc(n1 * sizeof(int));
+    int *R = (int *)malloc(n2 * sizeof(int));
+
+    if (L == NULL || R == NULL){
+        printf("Erro ao alocar  memória. \n");
+        exit(1);
+    }
+    int i = 0;
+    int j = 0;
+    int k = left;
+    while (i < n1 && j < n2){
+        if (L[i] <= R[j]){
+            arr[k] = L[i];
+            i++;
+        }else{
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+    while (i < n1){
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+    while (j < n2){
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+    free(L);
+    free(R);        
+}
+void margerSort(int arr, int left, int right){
+    if(left < right){
+        int mid = left + (right - left)/ 2;
+
+        margerSort(arr, left, mid);
+        margerSort(arr, mid +1, right);
+
+        merge(arr, left, mid, right);
+    }
+}    
+void print(int arr[], int size){
+    for ( int i = 0; i < size; i++){
+        printf("%d",arr[i]);
+    }
+    printf("\n");
+}
+
+int main (){
+   int *arr;
+   int n;
+   system("chcp 65001");
+   system("color f9");
+   setlocale(LC_ALL,"portuguse");
+   system("cls");
+
+   printf("Digite o número de elemntos: ");
+   scanf("%d",&n);
+
+   //aloca a memoria.
+   arr = (int  *)malloc(n * sizeof(int));
+   if (arr == NULL){
+    printf("ERRO AO ALOCAR A MEMÓRIA. \n");
+    return 1;
+   }
+   // solicita os elementos.
+   printf("Digite %d números:", n);
+   for (int  i = 0; i < n; i++){
+        scanf("%d",&arr[i]);
+   }
+   
+    printf("Original: \n");
+    print(arr,n);
+
+    margerSort(arr, 0, n - 1);
+
+    printf("Ordernado: \n");
+    print(arr,n);
+
+
+    free(arr);
+    return 0;
+}
