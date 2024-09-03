@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+#define FLOORS 10
+
+typedef struct {
+    int currentFloor;
+    int targetFloor;
+} Elevator;
+
+void moveElevator(Elevator* e) {
+    while (e->currentFloor != e->targetFloor) {
+        if (e->currentFloor < e->targetFloor) {
+            e->currentFloor++;
+        } else {
+            e->currentFloor--;
+        }
+        printf("Elevador está no andar %d\n", e->currentFloor);
+    }
+    printf("Elevador chegou ao andar %d\n", e->targetFloor);
+}
+
+int main() {
+    Elevator e;
+    e.currentFloor = 0; // Andar inicial
+    e.targetFloor = 5; // Andar desejado
+
+    printf("Elevador começando no andar %d\n", e.currentFloor);
+    moveElevator(&e);
+
+    return 0;
+}
