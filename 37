@@ -1,0 +1,98 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+
+#define MAX 100  // Tamanho máximo da fila
+
+// Estrutura da fila
+typedef struct {
+    int arr[MAX];
+    int front;
+    int rear;
+    int size;
+} Queue;
+
+// Função para inicializar a fila
+void initQueue(Queue* q) {
+    q->front = 0;
+    q->rear = -1;
+    q->size = 0;
+}
+
+// Função para verificar se a fila está cheia
+int isFull(Queue* q) {
+    return q->size == MAX;
+}
+
+// Função para verificar se a fila está vazia
+int isEmpty(Queue* q) {
+    return q->size == 0;
+}
+
+// Função para adicionar um elemento à fila
+void enqueue(Queue* q, int value) {
+    if (isFull(q)) {
+        printf("Fila cheia!\n");
+        return;
+    }
+    q->rear = (q->rear + 1) % MAX;
+    q->arr[q->rear] = value;
+    q->size++;
+    printf("Elemento %d inserido na fila\n", value);
+}
+
+// Função para remover um elemento da fila
+int dequeue(Queue* q) {
+    if (isEmpty(q)) {
+        printf("Fila vazia!\n");
+        return -1;  // Valor de erro
+    }
+    int value = q->arr[q->front];
+    q->front = (q->front + 1) % MAX;
+    q->size--;
+    return value;
+}
+
+// Função para ver o elemento do início da fila
+int peek(Queue* q) {
+    if (isEmpty(q)) {
+        printf("Fila vazia!\n");
+        return -1;  // Valor de erro
+    }
+    return q->arr[q->front];
+}
+
+// Função para imprimir todos os elementos da fila
+void printQueue(Queue* q) {
+    if (isEmpty(q)) {
+        printf("Fila vazia!\n");
+        return;
+    }
+    printf("Elementos da fila:\n");
+    for (int i = 0; i < q->size; i++) {
+        printf("%d\n", q->arr[(q->front + i) % MAX]);
+    }
+}
+
+int main() {
+    system("chcp 65001");
+    system("color f9");
+    setlocale(LC_ALL,"portuguse");
+    system("cls");
+
+    Queue q;
+    initQueue(&q);
+
+    enqueue(&q, 10);
+    enqueue(&q, 20);
+    enqueue(&q, 30);
+
+    printf("Elemento no início da fila: %d\n", peek(&q));
+
+    printf("Removendo o elemento: %d\n", dequeue(&q));
+    printf("Elemento no início da fila depois da remoção: %d\n", peek(&q));
+
+    printQueue(&q);
+
+    return 0;
+}
