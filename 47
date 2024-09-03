@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+typedef struct {
+    int parent;
+    int rank;
+} DisjointSet;
+
+typedef struct {
+    int u, v, weight;
+} Edge;
+
+Edge edges[MAX];
+DisjointSet sets[MAX];
+
+int find(int i) {
+    if (sets[i].parent != i)
+        sets[i].parent = find(sets[i].parent);
+    return sets[i].parent;
+}
+
+void unionSets(int u, int v) {
+    int root_u = find(u);
+    int root_v = find(v);
+
+    if (root_u != root_v) {
+        if (sets[root_u].rank > sets[root_v].rank)
+            sets[root_v].parent = root_u;
+        else if (sets[root_u].rank < sets[root_v].rank)
+            sets[root_u].parent = root_v;
+        else {
+            sets[root_v].parent = root_u;
+            sets[root_u].rank++;
+        }
+    }
+}
+
+int compare(const void* a, const void* b) {
+    return ((Edge*)a)->weight - ((Edge*)b)->weight;
+}
+
+void kruskal(int V, int E) {
+    qsort(edges, E, sizeof(Edge), compare);
+
+    for (int i = 0; i < V; i++) {
+        sets[i].parent = i;
+        sets[i].rank = 0;
+    }
+
+    int mst_weight = 0;
+
+    for (int i = 0; i < E; i++) {
+        int u = edges[i].u;
+        int v = edges[i].v;
+
+        if (find(u) != find(v)) {
+            printf("%d -- %d == %d\n", u, v, edges[i].weight);
+            unionSets(u, v);
+            mst_weight += edges[i].weight;
+        }
+    }
+
+    printf("Peso total da árvore geradora mínima: %d\n", mst_weight);
+}
+
+int main() {
+    int V = 4; // Número de vértices
+    int E = 5; // Número de arestas
+
+    edges[0].u = 0; edges[0].v = 1; edges[0].weight = 10;
+    edges[1].u = 0; edges[1].v = 2; edges[1].weight = 6;
+    edges[2].u = 0; edges[2].v = 3; edges[2].weight = 5;
+    edges[3].u = 1; edges[3].v = 3; edges[3].weight = 15;
+    edges[4].u = 2; edges[4].v = 3; edges[4].weight = 4;
+
+    kruskal(V, E);
+
+    return 0;
+}
