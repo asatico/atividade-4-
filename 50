@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <string.h>
+
+// Função para compressão RLE
+void compressRLE(char* input) {
+    int n = strlen(input);
+    for (int i = 0; i < n; i++) {
+        int count = 1;
+        while (i < n - 1 && input[i] == input[i + 1]) {
+            i++;
+            count++;
+        }
+        printf("%c%d", input[i], count);
+    }
+    printf("\n");
+}
+
+// Função para descompressão RLE
+void decompressRLE(char* input) {
+    int i = 0;
+    while (input[i]) {
+        char ch = input[i++];
+        int count = 0;
+        while (input[i] >= '0' && input[i] <= '9') {
+            count = count * 10 + (input[i] - '0');
+            i++;
+        }
+        for (int j = 0; j < count; j++) {
+            printf("%c", ch);
+        }
+    }
+    printf("\n");
+}
+
+int main() {
+    char input[] = "AAAABBBCCDAA";
+    printf("Comprimido: ");
+    compressRLE(input);
+
+    char compressed[] = "A4B3C2D1A2";
+    printf("Descomprimido: ");
+    decompressRLE(compressed);
+
+    return 0;
+}
