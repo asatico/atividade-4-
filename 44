@@ -1,0 +1,68 @@
+#include <stdio.h>
+
+#define N 8
+
+int moveX[] = {2, 1, -1, -2, -2, -1, 1, 2};
+int moveY[] = {1, 2, 2, 1, -1, -2, -2, -1};
+
+// Função para verificar se a posição é válida
+int isValid(int x, int y, int board[N][N]) {
+    return (x >= 0 && x < N && y >= 0 && y < N && board[x][y] == -1);
+}
+
+// Função para imprimir o tabuleiro
+void printBoard(int board[N][N]) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            printf("%2d ", board[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// Função para resolver o problema do cavalo
+int solveKTUtil(int board[N][N], int currPosX, int currPosY, int movei) {
+    if (movei == N * N) {
+        return 1;
+    }
+
+    for (int i = 0; i < 8; i++) {
+        int newX = currPosX + moveX[i];
+        int newY = currPosY + moveY[i];
+
+        if (isValid(newX, newY, board)) {
+            board[newX][newY] = movei;
+            if (solveKTUtil(board, newX, newY, movei + 1)) {
+                return 1;
+            }
+            board[newX][newY] = -1; // Voltar
+        }
+    }
+
+    return 0;
+}
+
+// Função principal para resolver o problema do cavalo
+int solveKT() {
+    int board[N][N];
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            board[i][j] = -1;
+        }
+    }
+
+    board[0][0] = 0; // Iniciar a partir da posição (0,0)
+
+    if (solveKTUtil(board, 0, 0, 1) == 0) {
+        printf("Não há solução\n");
+        return 0;
+    } else {
+        printBoard(board);
+    }
+    return 1;
+}
+
+int main() {
+    solveKT();
+    return 0;
+}
