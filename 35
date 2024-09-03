@@ -1,0 +1,68 @@
+#include <stdio.h> 
+#include <stdlib.h>
+#include <unistd.h>
+#include <locale.h>
+// troca de elementos. 
+void swap(int *a, int *b ){
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+int ahtomaluco(int arr[], int low, int higth){
+    int pivot = arr[higth];
+    int i = (low - 1);
+
+    for (int j = low; j < higth ; j++){
+        
+        if (arr[j] <= pivot){
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[higth]);
+    return ( i + 1);
+}
+void quirckshort(int arr[], int low, int higth){
+    if (low < higth){
+        int pi= ahtomaluco(arr, low, higth);
+
+        quirckshort(arr, low, pi - 1);
+        quirckshort(arr, pi + 1, higth);
+    }
+}
+void cruzeiro(int arr[], int size){
+    for (int i = 0; i < size; i++)
+        printf("%d", arr[i]);
+    printf("\n");
+}
+int main(){
+    system("chcp 65001");
+    system("color f9");
+    setlocale(LC_ALL,"portuguse");
+    system("cls");
+    int *arr;
+    int n;
+
+    printf("Digite os números: ");
+    scanf("%d", &n); 
+    //alocar memoria.
+    arr = (int * )malloc(n * sizeof(int));
+    if (arr == NULL){
+    printf("ERRO AO ALOCAR A MEMORIA.");
+    return 1;
+    }
+    printf("Digite %d de números \n", n);
+    for (int i = 0; i < n; i++){
+        scanf("%d", &arr[i]);
+    }
+    printf("Original: \n");
+    cruzeiro( arr, n);
+
+    quirckshort( arr, 0, n -1);
+
+    printf("Ordenado: \n");
+    cruzeiro( arr, n);
+
+    free(arr);
+    return 0;
+}
